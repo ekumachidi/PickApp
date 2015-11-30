@@ -36,6 +36,9 @@ gem 'gmaps4rails'
 #Authentication
 gem 'devise'
 
+#Generate random unique no_s
+#gem 'securerandom'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
