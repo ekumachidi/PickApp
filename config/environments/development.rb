@@ -40,4 +40,20 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
  
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :smtp
+  # change to true to allow email to be sent during development
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default :charset => "utf-8"
+  ActionMailer::Base.smtp_settings = {
+    :address              => "smtp.mandrillapp.com",
+    :port                 => 587,
+    :user_name            => "bernard.adarkwah@meltwater.org",
+    :password             => "WH2Q0VWWdB7J1yHrsfFi6Q",
+    :authentication       => "plain",
+    :enable_starttls_auto => true
+  }
+ 
 end

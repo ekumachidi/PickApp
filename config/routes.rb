@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  get 'assignments/index'
+
+  get 'assignments/new'
+
+  get 'assignments/create'
+
+  get 'assignments/show'
+
+  get 'assignments/edit'
+
+  get 'assignments/update'
+
+  get 'assignments/destroy'
+
   get 'welcome/index'
 
   devise_for :users
