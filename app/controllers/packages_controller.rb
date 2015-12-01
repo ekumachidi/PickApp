@@ -63,3 +63,5 @@ class PackagesController < ApplicationController
       params[:package]
     end
 end
+
+##when a package is created send emails to couriers within or near that location of the package
