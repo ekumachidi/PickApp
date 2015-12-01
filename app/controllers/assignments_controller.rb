@@ -20,7 +20,10 @@ class AssignmentsController < ApplicationController
    
   end
 
+  def we_assign
+
   def edit
+    #re-assign
   end
 
   def update

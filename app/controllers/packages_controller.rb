@@ -9,7 +9,7 @@ class PackagesController < ApplicationController
     marker.infowindow package.tracking_code
     end
   end
-
+   
   def show
   end
 
@@ -22,10 +22,9 @@ class PackagesController < ApplicationController
 
   def create
     @package = Package.new(package_params)
-
     respond_to do |format|
       if @package.save
-        format.html { redirect_to @package, notice: 'Package was successfully created.' }
+        format.html { redirect_to @package, notice: 'Package was successfully created.'}
         format.json { render :show, status: :created, location: @package }
       else
         format.html { render :new }
