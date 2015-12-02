@@ -3,8 +3,10 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
+# Use postgresql as the database for Active Record
+gem 'pg', '0.18.4'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -27,14 +29,14 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'bcrypt', '~> 3.1.7'
 
 #Use bootstrap theme
-gem 'bootstrap-generators'
+gem 'bootstrap-generators', '~> 3.3.4'
 
 #Location services
-gem 'geocoder'
-gem 'gmaps4rails'
+gem 'geocoder', '~> 1.2.12'
+gem 'gmaps4rails', '~> 2.1.2'
 
 #Authentication
-gem 'devise'
+gem 'devise', '~> 3.5.2'
 
 #Generate random unique no_s
 #gem 'securerandom'

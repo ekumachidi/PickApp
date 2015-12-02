@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20151128142231) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "assignments", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "package_id"
@@ -21,9 +24,9 @@ ActiveRecord::Schema.define(version: 20151128142231) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "assignments", ["courier_id"], name: "index_assignments_on_courier_id"
-  add_index "assignments", ["package_id"], name: "index_assignments_on_package_id"
-  add_index "assignments", ["user_id"], name: "index_assignments_on_user_id"
+  add_index "assignments", ["courier_id"], name: "index_assignments_on_courier_id", using: :btree
+  add_index "assignments", ["package_id"], name: "index_assignments_on_package_id", using: :btree
+  add_index "assignments", ["user_id"], name: "index_assignments_on_user_id", using: :btree
 
   create_table "couriers", force: :cascade do |t|
     t.integer  "user_id"
@@ -31,7 +34,7 @@ ActiveRecord::Schema.define(version: 20151128142231) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "couriers", ["user_id"], name: "index_couriers_on_user_id"
+  add_index "couriers", ["user_id"], name: "index_couriers_on_user_id", using: :btree
 
   create_table "packages", force: :cascade do |t|
     t.string   "tracking_code",                 null: false
@@ -52,7 +55,7 @@ ActiveRecord::Schema.define(version: 20151128142231) do
     t.datetime "updated_at",                    null: false
   end
 
-  add_index "packages", ["user_id"], name: "index_packages_on_user_id"
+  add_index "packages", ["user_id"], name: "index_packages_on_user_id", using: :btree
 
   create_table "profiles", force: :cascade do |t|
     t.string   "name",       null: false
@@ -65,7 +68,7 @@ ActiveRecord::Schema.define(version: 20151128142231) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "profiles", ["user_id"], name: "index_profiles_on_user_id"
+  add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -89,8 +92,15 @@ ActiveRecord::Schema.define(version: 20151128142231) do
     t.integer  "role_id"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["role_id"], name: "index_users_on_role_id"
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
 
+  add_foreign_key "assignments", "couriers"
+  add_foreign_key "assignments", "packages"
+  add_foreign_key "assignments", "users"
+  add_foreign_key "couriers", "users"
+  add_foreign_key "packages", "users"
+  add_foreign_key "profiles", "users"
+  add_foreign_key "users", "roles"
 end

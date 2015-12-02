@@ -13,6 +13,21 @@ ruby 2.2.3p173
 Rails 4.2.4
 
 * System dependencies
+  bootstrap-generators
+  byebug
+  coffee-rails (~> 4.1.0)
+  devise
+  geocoder
+  gmaps4rails
+  jbuilder (~> 2.0)
+  jquery-rails
+  rails (= 4.2.4)
+  sass-rails (~> 5.0)
+  sdoc (~> 0.4.0)
+  spring
+  turbolinks
+  uglifier (>= 1.3.0)
+  web-console (~> 2.0)
 
 * Configuration
 
