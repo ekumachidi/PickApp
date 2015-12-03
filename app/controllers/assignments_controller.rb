@@ -21,6 +21,7 @@ class AssignmentsController < ApplicationController
   end
 
   def we_assign
+  end
 
   def edit
     #re-assign

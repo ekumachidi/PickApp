@@ -26,14 +26,14 @@
 
     <tbody>
       <%= content_tag_for(:tr, @packages) do |package| %>
-        <td><%= Package.tracking_code %></td>
-        <td><%= Package.weight %></td>
-        <td><%= Package.vendor %></td>
-        <td><%= Package.location %></td>
-        <td><%= Package.destination %></td>
-        <td><%= Package.due_at %></td>
-        <td><%= Package.recipient %></td>
-        <td><%= Package.r_contact %></td>
+        <td><%= package.tracking_code %></td>
+        <td><%= package.weight %></td>
+        <td><%= package.vendor %></td>
+        <td><%= package.location %></td>
+        <td><%= package.destination %></td>
+        <td><%= package.due_at %></td>
+        <td><%= package.recipient %></td>
+        <td><%= package.r_contact %></td>
         
         <td><%= link_to 'Show', package %></td>
         <td><%= link_to 'Edit', edit_package_path(package) %></td>
