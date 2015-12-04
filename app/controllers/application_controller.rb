@@ -6,10 +6,10 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(users)
   	# current_user_path
   	# @user_id = current_user.id
-  	if current_user.sign_in_count == 0
+  	if current_user.sign_in_count == 1
   		user_profiles_path(current_user.id)
   	else
-  		user_packages_path(current_user.id)
+  		packages_path(current_user.id)
   	end
   end
 

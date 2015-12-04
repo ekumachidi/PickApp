@@ -1,4 +1,6 @@
 class PackagesController < ApplicationController
+  layout 'application'
+  before_filter :authenticate_user!
   before_action :set_package, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -60,6 +62,7 @@ class PackagesController < ApplicationController
     end
 
     def package_params
+      # params.require(:packages).permit(:tracking_code, :weight_kg, :vendor, :location)
       params[:package]
     end
 end
