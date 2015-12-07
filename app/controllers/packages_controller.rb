@@ -11,7 +11,7 @@ class PackagesController < ApplicationController
     marker.infowindow package.tracking_code
     end
   end
-
+   
   def show
   end
 
@@ -24,17 +24,18 @@ class PackagesController < ApplicationController
 
   def create
     @package = Package.new(package_params)
-
-    respond_to do |format|
+    
       if @package.save
-        format.html { redirect_to @package, notice: 'Package was successfully created.' }
-        format.json { render :show, status: :created, location: @package }
+         @couriers = Courier.find_by_sql(["select * from couriers join profiles on couriers.user_id = profiles.user_id "])
+         @couriers.each do |courier|
+         AssignMAiler.notified(courier,@package) if courier.near([@package.latidude, @package.longitue], 5)
+         end
+         flash[:notice] ='Package was successfully created.'
+         redirect_to @package
       else
-        format.html { render :new }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
+        render :new
       end
-    end
-  end
+   end
 
   def update
     respond_to do |format|
@@ -62,9 +63,8 @@ class PackagesController < ApplicationController
     end
 
     def package_params
-      # params.require(:packages).permit(:tracking_code, :weight_kg, :vendor, :location)
-      params[:package]
+      params.require(:package).permit(:tracking_code, :weight, :vendor, :location, :destination, :recipient, :r_contact)
     end
 end
 
-##when a package is created send emails to couriers within or near that location of the package
+ 
