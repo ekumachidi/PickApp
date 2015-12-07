@@ -2,7 +2,7 @@
 <script src="//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js"></script>
 <script src='//google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox_packed.js' type='text/javascript'></script> <!-- only if you need custom infoboxes -->
 <div class="page-header">
-  <%= link_to new_package_path, class: 'btn btn-primary' do %>
+  <%= link_to new_user_package_path, class: 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
     New Package
   <% end %>
@@ -34,10 +34,8 @@
         <td><%= package.due_at %></td>
         <td><%= package.recipient %></td>
         <td><%= package.r_contact %></td>
-        
-        <td><%= link_to 'Show', package %></td>
-        <td><%= link_to 'Edit', edit_package_path(package) %></td>
-        <td><%= link_to 'Destroy', package, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= button_to 'assign', assignments_path(package_id: package) %>
+     
       <% end %>
     </tbody>
   </table>

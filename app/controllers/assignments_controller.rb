@@ -2,7 +2,7 @@ class AssignmentsController < ApplicationController
   before_action :set_assignment, only: [:show, :update, :edit, :delete]
   
   def index
-    @assignment = Assignment.all
+    @assignments = Assignment.all
   end
 
   def new
@@ -10,10 +10,10 @@ class AssignmentsController < ApplicationController
   end
 
   def create
-    @courier = current_courier
-    @package = Package.find(params[:pakage_id])
-    @assignment = @courier.assignments.build(package_id: package.id)
-    AssignMailer.courier_accepted(@package.user).deliver_now
+    @courier = current_user
+    @package = Package.find(params[:package_id])
+    @assignment = @courier.assignments.build(package_id: @package.id)
+    redirect_to @assignment
   end
 
   def show

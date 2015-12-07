@@ -1,9 +1,9 @@
 <div class="page-header">
   <h1>Assignments#index</h1>
 </div>
-<%@assignments.each do |a|%>
+<% @assignments.each do |a|%>
 <%= a.package.tracking_code%>
 <%= a.package.user.profile.name%>
 <%= a.courier.user.profile.name %>
 
-<%= a.courier.user.profile.somthing %>
+<%end%>

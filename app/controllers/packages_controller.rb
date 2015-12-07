@@ -26,7 +26,7 @@ class PackagesController < ApplicationController
       if @package.save
          @couriers = Courier.find_by_sql(["select * from couriers join profiles on couriers.user_id = profiles.user_id "])
          @couriers.each do |courier|
-         AssignMAiler.notified(courier,@package) if courier.near([@package.latidude, @package.longitue], 5)
+         # AssignMailer.notified(courier,@package) if courier.near([@package.latidude, @package.longitue], 5)
          end
          flash[:notice] ='Package was successfully created.'
          redirect_to @package

@@ -1,9 +1,8 @@
 class AssignMailer < ApplicationMailer
 
-	def courier_accepted(user, package)
-		user = user
+	def courier_accepted(package)
         @package = package
-        mail to:  user.email_address,
+        mail to:  @package.user.email,
         subject: 'PickApp Notification'
 	    # headers['X-MC-MergeVars'] = "{\"TYPE\":\"#{@assignment.courier.name}\"}" # variables
 	    # headers['X-MC-Template'] = "mine"  # template
@@ -11,7 +10,7 @@ class AssignMailer < ApplicationMailer
 	    # headers['X-MC-InlineCSS'] = "true" # inline css
     end
 
-    def new_package(assign,package)
+    def new_package(package)
     	@notified = assign
         @package = package
     	@notified.each do |x|
