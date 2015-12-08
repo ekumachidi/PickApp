@@ -22,20 +22,16 @@ class PackagesController < ApplicationController
   def edit
   end
 
-  def create
-    @package = Package.new(package_params)
+  # def create
+  #   @package = Package.new(package_params)
     
-      if @package.save
-         @couriers = Courier.find_by_sql(["select * from couriers join profiles on couriers.user_id = profiles.user_id "])
-         @couriers.each do |courier|
-         AssignMAiler.notified(courier,@package) if courier.near([@package.latidude, @package.longitue], 5)
-         end
-         flash[:notice] ='Package was successfully created.'
-         redirect_to @package
-      else
-        render :new
-      end
-   end
+  #     if @package.save
+  #        flash[:notice] ='Package was successfully created.'
+  #        redirect_to user_packages_path(id: @package.id)
+  #     else
+  #       render :new
+  #     end
+  #  end
 
   def update
     respond_to do |format|
@@ -57,6 +53,23 @@ class PackagesController < ApplicationController
     end
   end
 
+  def create
+      @couriers = Courier.all
+      @user = current_user
+      @package = @user.packages.build(package_params)
+      if @package.save
+        twilio_client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
+        twilio_client.account.sms.messages.create(
+          from: ENV['TWILIO_FROM'],
+          to: '+233546590509',
+          body: 'This is a message'
+        )
+        redirect_to user_packages_path(@user)
+      else
+        render :new
+      end
+    end
+
   private
     def set_package
       @package = Package.find(params[:id])
@@ -65,6 +78,9 @@ class PackagesController < ApplicationController
     def package_params
       params.require(:package).permit(:tracking_code, :weight, :vendor, :location, :destination, :recipient, :r_contact)
     end
+
+
+
 end
 
  
