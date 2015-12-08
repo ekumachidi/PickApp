@@ -1,6 +1,11 @@
 <div class="page-header">
   <h1>Assignment#show</h1>
+
+<%= @assignment.package.tracking_code%>
+<%= @assignment.package %>
+<%= @assignment.user.id %><br>
+<%= link_to 'Packages', packages_path() %>
 </div>
 
-<%= render @assignment%>
+
 

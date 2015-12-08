@@ -37,7 +37,7 @@ gem 'gmaps4rails', '~> 2.1.2'
 
 #Authentication
 gem 'devise', '~> 3.5.2'
-
+gem 'twilio-ruby'
 #Generate random unique no_s
 #gem 'securerandom'
 

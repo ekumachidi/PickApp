@@ -13,7 +13,13 @@ class AssignmentsController < ApplicationController
     @courier = current_user
     @package = Package.find(params[:package_id])
     @assignment = @courier.assignments.build(package_id: @package.id)
-    redirect_to @assignment
+    #send sms
+    if @assignment.save
+       @package.update(assigned: true)
+     redirect_to @assignment
+    else
+      redirect_to user_packages_path(current_user)
+    end
   end
 
   def show

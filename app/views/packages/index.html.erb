@@ -26,6 +26,7 @@
 
     <tbody>
       <%= content_tag_for(:tr, @packages) do |package| %>
+        <% unless package.assigned  %>
         <td><%= package.tracking_code %></td>
         <td><%= package.weight %></td>
         <td><%= package.vendor %></td>
@@ -34,7 +35,8 @@
         <td><%= package.due_at %></td>
         <td><%= package.recipient %></td>
         <td><%= package.r_contact %></td>
-        <td><%= button_to 'assign', assignments_path(package_id: package) %>
+        <td><%= button_to 'assign', assignments_path(package_id: package), data: {confirm: 'You have chosen to deliver this package'} %>
+        <%end%>
      
       <% end %>
     </tbody>
