@@ -26,4 +26,6 @@ class Package < ActiveRecord::Base
                     format: {with: /\A0+[0-9]{9}/},
                     length:{maximum: 10, message:"number is too long. Maximum is 10 digits."}
 
+
+
 end

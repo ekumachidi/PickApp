@@ -52,9 +52,16 @@ class PackagesController < ApplicationController
   end
 
   def create
+      @couriers = Courier.all
       @user = current_user
       @package = @user.packages.build(package_params)
       if @package.save
+        twilio_client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
+        twilio_client.account.sms.messages.create(
+          from: ENV['TWILIO_FROM'],
+          to: '+233546590509',
+          body: 'This is a message'
+        )
         redirect_to user_packages_path(@user)
       else
         render :new
