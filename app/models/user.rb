@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   before_create :set_default_role
   has_many :assignments
   has_many :packages
+  has_one  :profile
 
   private
   def set_default_role

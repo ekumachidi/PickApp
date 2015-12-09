@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'users/index'
+
+  get 'users/show'
+
   get 'assignments/index'
 
   get 'assignments/new'
@@ -18,7 +22,8 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :users do
-    resources  :packages 
+    resources  :packages
+    resources  :profiles 
 
   end
   

@@ -15,16 +15,18 @@ class AssignmentsController < ApplicationController
     @assignment = @courier.assignments.build(package_id: @package.id)
     
     if @assignment.save
-      twilio_client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
+      twilio_client= Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
         twilio_client.account.sms.messages.create(
           from: ENV['TWILIO_FROM'],
-          to: '+233546590509',
-          body: 'This is a message'
+          to: '+2335465905009',
+          body: "We got a courier to deliver your package. it will take approximately #{30} mins.
+                  Feel free to call us on this number 0546590509 if you have any issue"
+          )
       @package.update(assigned: true)
       flash[:notice] = 'Package has been successfully assigned'
       redirect_to @assignment
     else
-      redirect_to user_packages_path(current_user)
+      render :new
     end
   end
 
@@ -33,6 +35,7 @@ class AssignmentsController < ApplicationController
   end
 
   def we_assign
+    
   end
 
   def edit

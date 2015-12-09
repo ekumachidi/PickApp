@@ -3,7 +3,7 @@
 </div>
 <% @assignments.each do |a|%>
 <%= a.package.tracking_code%>
-<%= a.package.user.profile.name%>
-<%= a.courier.user.profile.name %>
+<%= a.package.user.profiles.name%>
+
 
 <%end%>

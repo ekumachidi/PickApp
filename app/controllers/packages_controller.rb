@@ -11,10 +11,12 @@ class PackagesController < ApplicationController
   end
    
   def show
+    @user = current_user
   end
 
   def new
     @package = Package.new
+    @user = current_user
   end
 
   def edit
@@ -52,17 +54,24 @@ class PackagesController < ApplicationController
   end
 
   def create
-      @couriers = Courier.all
+       @couriers = Courier.all
+      #@couriers_near =  Courier.all
       @user = current_user
       @package = @user.packages.build(package_params)
       if @package.save
-        twilio_client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
-        twilio_client.account.sms.messages.create(
-          from: ENV['TWILIO_FROM'],
-          to: '+233546590509',
-          body: 'This is a message'
+        @couriers.each do |courier|
+          if courier.role_id == 2
+           twilio_client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
+           twilio_client.account.sms.messages.create(
+            from: ENV['TWILIO_FROM'],
+            to: "+233#{courier.profile.phone}",
+           body: "Package with details tracking_code: #{@package.tracking_code},
+           vendor: #{@package.vendor}, destination: #{@package.destination}, 
+           weight: #{@package.weight} is close to you. Log in to accept"
+         end
         )
-        redirect_to user_packages_path(@user)
+      end
+        redirect_to user_package_path(@user.id, @package)
       else
         render :new
       end
@@ -76,8 +85,6 @@ class PackagesController < ApplicationController
     def package_params
       params.require(:package).permit(:tracking_code, :weight, :vendor, :location, :destination, :recipient, :r_contact)
     end
-
-
 
 end
 

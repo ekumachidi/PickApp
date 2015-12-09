@@ -8,7 +8,17 @@
     Edit
   <% end %>
   <h1>Show package</h1>
+  <%= @package.tracking_code %>
+<%= @package.location %>
+<%= @package.weight %>
+<%= @package.vendor %>
+<%= @package.recipient %>
+<%= @package.ref_code %>
 </div>
 
 <dl class="dl-horizontal">
 </dl>
+<%= link_to new_user_package_path(user_id: @user.id), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Package
+  <% end %>

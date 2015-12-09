@@ -1,0 +1,7 @@
+
+<h1>Change the role of User</h1>
+<h1><%= @user.profile.name%></h1>
+<%= form_for @user do |f|%>
+ <%= f.collection_select  :role_id, @roles,:id,:name, include_blank: false %>
+<%= f.submit "change role", data: {confirm: "Do you want to change role of user?"}%>
+<%end%>

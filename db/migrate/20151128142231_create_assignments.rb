@@ -3,7 +3,6 @@ class CreateAssignments < ActiveRecord::Migration
     create_table :assignments do |t|
       t.references :user, index: true, foreign_key: true
       t.references :package, index: true, foreign_key: true
-      t.references :courier, index: true, foreign_key: true
 
       t.timestamps null: false
     end

@@ -1,0 +1,16 @@
+
+  <div>
+  <h1>Welcome</h1><% @user%>
+  <%= link_to new_user_package_path(user_id: @user.id), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Package
+  <% end %>
+</div>
+
+<%@user.packages.each do |package|%>
+<% unless package.status%>
+<%=link_to package.tracking_code , package_path%>
+<%= package.weight%>
+<%= package.status%><br>
+<%end%>
+<%end%><br>
