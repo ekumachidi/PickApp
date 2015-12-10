@@ -27,7 +27,8 @@ Rails.application.routes.draw do
 
   end
   
-  resources  :profiles
+  get 'profiles/new' => 'profiles#new'
+  post '/profiles'   => 'profiles#create'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

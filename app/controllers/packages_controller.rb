@@ -54,7 +54,7 @@ class PackagesController < ApplicationController
   end
 
   def create
-       @couriers = Courier.all
+       @couriers = User.where(role_id: 2)
       #@couriers_near =  Courier.all
       @user = current_user
       @package = @user.packages.build(package_params)
@@ -68,8 +68,9 @@ class PackagesController < ApplicationController
            body: "Package with details tracking_code: #{@package.tracking_code},
            vendor: #{@package.vendor}, destination: #{@package.destination}, 
            weight: #{@package.weight} is close to you. Log in to accept"
-         end
+         
         )
+        end
       end
         redirect_to user_package_path(@user.id, @package)
       else
@@ -83,7 +84,7 @@ class PackagesController < ApplicationController
     end
 
     def package_params
-      params.require(:package).permit(:tracking_code, :weight, :vendor, :location, :destination, :recipient, :r_contact)
+      params.require(:package).permit(:tracking_code, :weight, :vendor, :location, :destination, :recipient, :r_contact, :assigned)
     end
 
 end
