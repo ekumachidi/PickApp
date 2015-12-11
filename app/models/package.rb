@@ -1,6 +1,6 @@
 class Package < ActiveRecord::Base
   belongs_to :user
-  has_one :assignments
+  has_one :assignment
   
   
   geocoded_by :location

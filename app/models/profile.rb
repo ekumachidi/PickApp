@@ -4,7 +4,10 @@ class Profile < ActiveRecord::Base
 
   geocoded_by :address
   after_validation :geocode
-  
+
+  reverse_geocoded_by :latitude, :longitude
+  after_validation :reverse_geocode
+
   validates :name, format: {with: /[\w]+([\s]+[\w]+){1}+/, message: "Please fill in more than one name."}
 
   

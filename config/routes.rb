@@ -24,9 +24,9 @@ Rails.application.routes.draw do
   resources :users do
     resources  :packages
     resources  :profiles 
-
+    resources :assignments
   end
-  
+  get 'packages/checkout' => 'packages#checkout'
   get 'profiles/new' => 'profiles#new'
   post '/profiles'   => 'profiles#create'
   # The priority is based upon order of creation: first created -> highest priority.

@@ -9,10 +9,22 @@ class ApplicationController < ActionController::Base
   	unless current_user.profile
   		new_user_profile_path(current_user)
   	else
-  		user_path(current_user.id)
+      packages_path
+  		# user_path(current_user.id)
   	end
   end
+ 
+ def restrict_courier
+    if  current_user.role_id == 2
+      redirect_to user_path(current_user)
+    end
+ end
 
-  
+ def restrict_user
+    if current_user.role_id == 1
+      redirect_to user_path(current_user)
+    end
+ end
+
 
 end

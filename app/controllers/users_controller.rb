@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
+    before_action :restrict_user , only: [:index, :edit, :update, ]
+    before_action :restrict_courier, only: [:index, :edit, :update]
   def index
-  	@normal = User.all
+  	@normal = User.order(:role_id)
   	
   end
 
@@ -9,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-  	@user = current_user
+  	@user = User.find(params[:id])
   	@roles = Role.all
   end
 

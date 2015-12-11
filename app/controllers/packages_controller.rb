@@ -1,5 +1,7 @@
 class PackagesController < ApplicationController
-  before_action :set_package, only: [:show, :edit, :update, :destroy]
+  before_action :set_package, only: [:show, :update, :destroy]
+  before_action :restrict_user , only: [:index, :checkout]
+
 
   def index
     @packages = Package.all
@@ -12,6 +14,11 @@ class PackagesController < ApplicationController
    
   def show
     @user = current_user
+    @hash = Gmaps4rails.build_markers(@package) do |package, marker|
+      marker.lat package.latitude
+      marker.lng package.longitude
+      marker.infowindow package.tracking_code
+    end
   end
 
   def new
@@ -20,6 +27,10 @@ class PackagesController < ApplicationController
   end
 
   def edit
+   @package = Package.find(params[:id])
+   unless current_user.id == @package.user_id
+    redirect_to  @package
+  end
   end
 
   # def create
@@ -48,34 +59,46 @@ class PackagesController < ApplicationController
   def destroy
     @package.destroy
     respond_to do |format|
-      format.html { redirect_to packages_url, notice: 'Package was successfully destroyed.' }
+      format.html { redirect_to user_path(current_user.id), notice: 'Package was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   def create
-       @couriers = User.where(role_id: 2)
-      #@couriers_near =  Courier.all
+       #@couriers = User.where(role_id: 2)
+       
       @user = current_user
       @package = @user.packages.build(package_params)
       if @package.save
-        @couriers.each do |courier|
-          if courier.role_id == 2
+        @couriers = Profile.near([@package.latitude, @package.longitude], 2)
+        @couriers.each do |courier| 
+          if courier.user.role_id == 2 
            twilio_client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
            twilio_client.account.sms.messages.create(
             from: ENV['TWILIO_FROM'],
-            to: "+233#{courier.profile.phone}",
+            to: "+233#{courier.phone}",
            body: "Package with details tracking_code: #{@package.tracking_code},
            vendor: #{@package.vendor}, destination: #{@package.destination}, 
            weight: #{@package.weight} is close to you. Log in to accept"
-         
-        )
-        end
+         )
+         end
       end
         redirect_to user_package_path(@user.id, @package)
       else
         render :new
       end
+    end
+
+    def checkout
+      @package = Package.find(params[:id])
+      @package.update(status: true)
+      twilio_client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
+           twilio_client.account.sms.messages.create(
+            from: ENV['TWILIO_FROM'],
+            to: "+233#{@package.user.profile.phone}",
+           body: "We have been notified that your package has been delivered succesfully. Do let us know if you have any issues 0546590509."
+         )
+      redirect_to user_path(current_user)
     end
 
   private
