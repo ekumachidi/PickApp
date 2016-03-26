@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151203085507) do
+ActiveRecord::Schema.define(version: 20151209083837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,12 +19,10 @@ ActiveRecord::Schema.define(version: 20151203085507) do
   create_table "assignments", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "package_id"
-    t.integer  "courier_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "assignments", ["courier_id"], name: "index_assignments_on_courier_id", using: :btree
   add_index "assignments", ["package_id"], name: "index_assignments_on_package_id", using: :btree
   add_index "assignments", ["user_id"], name: "index_assignments_on_user_id", using: :btree
 
@@ -90,14 +88,13 @@ ActiveRecord::Schema.define(version: 20151203085507) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.integer  "role_id"
+    t.integer  "role_id",                default: 1
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
 
-  add_foreign_key "assignments", "couriers"
   add_foreign_key "assignments", "packages"
   add_foreign_key "assignments", "users"
   add_foreign_key "couriers", "users"

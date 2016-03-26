@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.4'
+gem 'rails'
 # Use postgresql as the database for Active Record
 gem 'pg', '0.18.4'
 # Use sqlite3 as the database for Active Record
@@ -37,7 +37,7 @@ gem 'gmaps4rails', '~> 2.1.2'
 
 #Authentication
 gem 'devise', '~> 3.5.2'
-
+gem 'twilio-ruby'
 #Generate random unique no_s
 #gem 'securerandom'
 

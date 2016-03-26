@@ -3,10 +3,6 @@ class ProfilesController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
 
-  def index
-    @profiles = Profile.all
-  end
-
   def show
   end
 
@@ -18,19 +14,20 @@ class ProfilesController < ApplicationController
   end
 
   def create
+    user = current_user
     @profile = Profile.new(profile_params)
 
-    # respond_to do |format|
+     respond_to do |format|
       if @profile.save
-        # redirect_to profiles_path
-        format.html { redirect_to @profile, notice: 'Profile was successfully created.' }
+        @profile.update(user_id: user.id)
+        format.html { redirect_to user, notice: 'Profile was successfully created.' }
         format.json { render :show, status: :created, location: @profile }
       else
         # render 'new'
         format.html { render :new }
         format.json { render json: @profile.errors, status: :unprocessable_entity }
       end
-    # end
+     end
   end
 
   def update
@@ -59,7 +56,8 @@ class ProfilesController < ApplicationController
     end
 
     def profile_params
-      # params[:profile]
       params.require(:profile).permit(:name, :address, :phone, :latitude, :longitude)
     end
+
+   
 end

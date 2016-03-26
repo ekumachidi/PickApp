@@ -1,9 +1,39 @@
 <div class="page-header">
-  <h1>Assignments#index</h1>
+  <h1>Assignments</h1>
 </div>
-<%@assignments.each do |a|%>
-<%= a.package.tracking_code%>
-<%= a.package.user.profile.name%>
-<%= a.courier.user.profile.name %>
+ <div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Tracking Code</th>
+        <th>Weight</th>
+        <th>Vendor</th>
+        <th>Location</th>
+        <th>Destination</th>
+        <th>Status</th>
+        <th>Reciever</th>
+        <th>Courier</th>
 
-<%= a.courier.user.profile.somthing %>
+      </tr>
+    </thead>
+
+    <tbody>
+         <% @assignments.each do |assign|%>
+         <tr>
+        <td><%= link_to assign.package.tracking_code, package_path(assign.package.id) %></td>
+        <td><%= assign.package.weight %></td>
+        <td><%= assign.package.vendor %></td>
+        <td><%= assign.package.location %></td>
+        <td><%= assign.package.destination %></td>
+        <td><%= assign.package.status %></td>
+        <td><%= assign.package.recipient %></td>
+        <td><%= assign.user.profile.name %></td>
+        <td><%= link_to 'show', assign%></td>
+        </tr>
+        <%end%>
+    </tbody>
+  </table>
+<%= link_to packages_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    packages
+  <% end %>

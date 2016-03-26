@@ -1,0 +1,86 @@
+  
+  <div>
+  <h1>Welcome</h1><br><br>
+  <%unless @user.packages.count || @user.assignments.count > 0%>
+  <h3>No package yet</h3>
+  <%end%>
+ </div>
+ <% if @user.packages.count > 0%>
+ <h2>Packages</h2>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Tracking Code</th>
+        <th>Weight</th>
+        <th>Vendor</th>
+        <th>Location</th>
+        <th>Destination</th>
+        <th>Reciever</th>
+        <th>Phone</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @user.packages) do |package| %>
+        <% unless package.status  %>
+	        <td><%= package.tracking_code %></td>
+	        <td><%= package.weight %></td>
+	        <td><%= package.vendor %></td>
+	        <td><%= package.location %></td>
+	        <td><%= package.destination %></td>
+	        <td><%= package.recipient %></td>
+	        <td><%= package.r_contact %></td>
+	        <td><%= link_to 'Show', user_package_path(@user,package) %></td>
+		        
+	        <%end%>
+        <%end%>
+          </tbody>
+          </table>
+        
+    <% end %>
+
+    <%= link_to new_user_package_path(user_id: @user.id), class: 'btn btn-primary' do %>
+       <span class="glyphicon glyphicon-plus"></span>
+       New Package
+        <% end %>
+
+      <% if @user.assignments.count > 0%>
+       <h1>Assignments</h1>
+        <div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>tracking_code</th>
+        <th>Weight</th>
+        <th>Vendor</th>
+        <th>Location</th>
+        <th>Destination</th>
+        <th>Reciever</th>
+        <th>Phone</th>
+        <th>status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @user.assignments.each do |assignment| %>
+      <tr>
+        <td><%= assignment.package.tracking_code %></td>
+        <td><%= assignment.package.weight %></td>
+        <td><%= assignment.package.vendor %></td>
+        <td><%= assignment.package.location %></td>
+        <td><%= assignment.package.destination %></td>
+        <td><%= assignment.package.recipient %></td>
+        <td><%= assignment.package.r_contact %></td>
+        <td><%= assignment.package.status %></td>
+        <td><%= link_to 'Show', user_assignment_path(@user, assignment) %> </td>
+          <% if assignment.package.status == false %>
+         	 <td><%= link_to 'Checkout', packages_checkout_path(id: assignment.package_id), data: {confirm: 'I have delivered package'} %></td>
+          	 <%else%>
+          	  <td>Delivered</td>
+          <%end%>
+		<%end%>
+		</tr>
+     </tbody>
+   </table>
+  <%end%>

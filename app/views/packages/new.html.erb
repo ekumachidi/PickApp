@@ -1,5 +1,5 @@
 <div class="page-header">
-  <%= link_to packages_path, class: 'btn btn-default' do %>
+  <%= link_to user_path(id: @user.id), class: 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Back
   <% end %>
@@ -7,3 +7,4 @@
 </div>
 
 <%= render 'form' %>
+

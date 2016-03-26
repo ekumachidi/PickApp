@@ -5,7 +5,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   belongs_to :role
+
   before_create :set_default_role
+  
+  has_many :assignments
+  has_many :packages 
+  has_one  :profile  ,dependent: :destroy
 
   private
   def set_default_role

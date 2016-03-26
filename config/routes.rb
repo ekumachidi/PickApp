@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'users/index'
+
+  get 'users/show'
+
   get 'assignments/index'
 
   get 'assignments/new'
@@ -18,10 +22,13 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :users do
-
+    resources  :packages
+    resources  :profiles 
+    resources :assignments
   end
-  resources  :packages
-  resources  :profiles
+  get 'packages/checkout' => 'packages#checkout'
+  get 'profiles/new' => 'profiles#new'
+  post '/profiles'   => 'profiles#create'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -76,4 +83,7 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+   resources :assignments
+   resources :packages
 end
+

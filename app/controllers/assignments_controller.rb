@@ -1,8 +1,10 @@
 class AssignmentsController < ApplicationController
   before_action :set_assignment, only: [:show, :update, :edit, :delete]
+  before_action :restrict_user 
+  before_action :restrict_courier, only: [:index, :new]
   
   def index
-    @assignment = Assignment.all
+    @assignments = Assignment.all
   end
 
   def new
@@ -10,22 +12,28 @@ class AssignmentsController < ApplicationController
   end
 
   def create
-    @courier = current_courier
-    @package = Package.find(params[:pakage_id])
-    @assignment = @courier.assignments.build(package_id: package.id)
-    AssignMailer.courier_accepted(@package.user).deliver_now
+    @courier = current_user
+    @package = Package.find(params[:package_id])
+    @assignment = @courier.assignments.build(package_id: @package.id)
+    if @assignment.save
+       Message.new.package_accepted(@courier, @package.user)
+       @package.update(assigned: true)
+      flash[:notice] = 'Package has been successfully assigned'
+      redirect_to current_user
+    else
+      redirect_to user_packages_path(@courier)
+    end
   end
 
   def show
    
   end
 
-  def we_assign
-  end
-
   def edit
     #re-assign
   end
+  
+  
 
   def update
   end

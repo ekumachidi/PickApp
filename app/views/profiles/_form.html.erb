@@ -13,11 +13,9 @@
   <% end %>
 
   <div class = "textfields">
-    <div><%= f.text_field :name, placeholder: 'name' %></div> <br>
-    <div><%= f.text_field :address, placeholder: 'address' %></div> <br>
-    <div><%= f.text_field :phone, placeholder: 'phone' %></div> <br>
-    <div><%= f.text_field :latitude, placeholder: 'latitude' %></div> <br>
-    <div><%= f.text_field :longitude, placeholder: 'longitude' %></div> <br>
+    <div><%= f.text_field :name, placeholder: 'full name' %></div> <br>
+    <div><%= f.text_field :address, placeholder: 'town' %></div> <br>
+    <div><%= f.label '+233'%><%= f.text_field :phone, placeholder: 'phone number', class: "number-width" %></div> <br>
   </div>
 
   <div class="form-group">

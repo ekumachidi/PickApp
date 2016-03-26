@@ -1,6 +1,46 @@
 <div class="page-header">
-  <h1>Assignments#show</h1>
-</div>
+  <h1>This assignment</h1>
 
-<%= render @assignment%>
+
+</div>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Tracking Code</th>
+        <th>Weight</th>
+        <th>Vendor</th>
+        <th>Location</th>
+        <th>Destination</th>
+        <th>Reciever</th>
+        <th>Recipients phone</th>
+        <th>Delivered?</th>
+        <th>Checkout</th>
+      </tr>
+    </thead>
+
+    <tbody>
+     
+        <td><%= @assignment.package.tracking_code %></td>
+        <td><%= @assignment.package.weight %></td>
+        <td><%= @assignment.package.vendor %></td>
+        <td><%= @assignment.package.location %></td>
+        <td><%= @assignment.package.destination %></td>
+        <td><%= @assignment.package.recipient %></td>
+        <td><%= @assignment.package.r_contact %></td>
+        <td><%= @assignment.package.status%></td>
+
+        <% if @assignment.package.status == false %>
+        <td><%= link_to 'checkout', assignments_path, action: "checkout", data: {confirm: 'I have delivered package'} %></td>
+        <%end%>
+    </tbody>
+  </table>
+  <br>
+  <% if current_user.role_id == 3 %>
+  <%= link_to assignments_path, class: 'btn btn-primary' do %>
+    All assignments
+  <% end %>
+  <%end%>
+
+
 
