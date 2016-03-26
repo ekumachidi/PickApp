@@ -20,11 +20,11 @@
 
     <tbody>
       <%= content_tag_for(:tr, @profiles) do |profile| %>
-          <td><%= Profile.name %></td>
-          <td><%= Profile.address %></td>
-          <td><%= Profile.phone %></td>
-          <td><%= Profile.latitude %></td>
-          <td><%= Profile.longitude %></td>
+          <td><%= profile.name %></td>
+          <td><%= profile.address %></td>
+          <td><%= profile.phone %></td>
+          <td><%= profile.latitude %></td>
+          <td><%= profile.longitude %></td>
             <td><%= link_to 'Show', profile %></td>
         <td><%= link_to 'Edit', edit_profile_path(profile) %></td>
         <td><%= link_to 'Destroy', profile, method: :delete, data: { confirm: 'Are you sure?' } %></td>

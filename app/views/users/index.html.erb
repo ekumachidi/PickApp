@@ -16,11 +16,12 @@
     <tbody>
       <%@normal.each do |user| %>
       <tr>
-        <td><%= user.profile.name %></td>
+
+        <td><%= user.profile.name rescue "User" %></td>
         <td><%= user.role.name %></td>
-        <td><%= user.profile.address%></td>
+        <td><%= user.profile.address rescue "unknown"%></td>
         <td><%= user.email %></td>
-        <td><%= user.profile.phone %></td>
+        <td><%= user.profile.phone rescue "address" %></td>
         <td><%= link_to edit_user_path(user), class: 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Change role </td>

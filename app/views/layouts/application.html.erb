@@ -36,16 +36,22 @@
         <!-- <ul class="nav navbar-nav"> -->
           <li class="active"><%= link_to "Home", root_path %></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#Works">How it works</a></li>
-          <li><a href="#Team">The team</a></li>
+
+          <li><a href="#Team">Team</a></li>
+          <li><a href="#">How it works</a></li>
           <li class="dropdown">
                   <% if user_signed_in? %>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.email %><b class="caret"></b></a>
               <ul class="dropdown-menu">
                   <!-- <li>Signed in as <%= current_user.email %>. Not you? -->
-                  <% link_to "Sign out", destroy_user_session_path, method: :delete %>
+                  <%= link_to "My page", user_path(current_user) %>
+    
                   <li><%= link_to 'Change Password', edit_user_registration_path %></li> 
                   <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+                   <%if current_user.role_id == 3%>
+                   <li><%= link_to "users", users_path %></li>
+                   <li><%= link_to "packages", packages_path %></li>
+                   <%end%>
                 <% else %>
                   <li><%= link_to "Login", new_user_session_path %></li>
                   <li><%= link_to "Sign up", new_user_registration_path %></li> 

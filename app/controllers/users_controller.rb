@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
-    before_action :restrict_user , only: [:index, :edit, :update, ]
-    before_action :restrict_courier, only: [:index, :edit, :update]
+  before_action   :authenticate_user!
+    before_action :restrict_courier, only: [:index]
+    before_action :restrict_user, only: [:index]
+   
   def index
   	@normal = User.order(:role_id)
   	

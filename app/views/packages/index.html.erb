@@ -39,7 +39,7 @@
           <%if current_user.role_id == 2%>
         <td><%= button_to 'assign', assignments_path(package_id: package), data: {confirm: "You have chosen to deliver package  \"#{package.tracking_code}\" from  \"#{package.location}\" to  \"#{package.destination}\""} %>
             <%else%>
-            <td><%= link_to 'assign', new_assignments_path(package_id: package), data: {confirm: "You have chosen to deliver package #{package.tracking_code} from #{package.location} to #{package.destination}"} %>
+            <td><%= link_to 'assign', new_assignment_path(package_id: package), data: {confirm: "You have chosen to deliver package #{package.tracking_code} from #{package.location} to #{package.destination}"} %>
           <%end%>
         <%end%>
      
@@ -47,9 +47,11 @@
     </tbody>
   </table>
 </div>
-<div style='width: 800px;'>
-  <div id="map" style='width: 800px; height: 400px;'></div>
-</div>
+<% if current_user.role_id != 3 %>
+  <div style='width: 800px;'>
+    <div id="map" style='width: 800px; height: 400px;'></div>
+  </div>
+<% end %>
 <script type="text/javascript">
   handler = Gmaps.build('Google');
   handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){

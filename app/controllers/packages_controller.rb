@@ -1,10 +1,12 @@
 class PackagesController < ApplicationController
   before_action :set_package, only: [:show, :update, :destroy]
   before_action :restrict_user , only: [:index, :checkout]
+  layout 'application'
+  before_filter :authenticate_user!
 
 
   def index
-    @packages = Package.all
+    @packages = Package.where(assigned: false)
     @hash = Gmaps4rails.build_markers(@packages) do |package, marker|
     marker.lat package.latitude
     marker.lng package.longitude
@@ -30,19 +32,8 @@ class PackagesController < ApplicationController
    @package = Package.find(params[:id])
    unless current_user.id == @package.user_id
     redirect_to  @package
+   end
   end
-  end
-
-  # def create
-  #   @package = Package.new(package_params)
-    
-  #     if @package.save
-  #        flash[:notice] ='Package was successfully created.'
-  #        redirect_to user_packages_path(id: @package.id)
-  #     else
-  #       render :new
-  #     end
-  #  end
 
   def update
     respond_to do |format|
@@ -65,24 +56,12 @@ class PackagesController < ApplicationController
   end
 
   def create
-       #@couriers = User.where(role_id: 2)
-       
       @user = current_user
       @package = @user.packages.build(package_params)
       if @package.save
-        @couriers = Profile.near([@package.latitude, @package.longitude], 2)
-        @couriers.each do |courier| 
-          if courier.user.role_id == 2 
-           twilio_client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
-           twilio_client.account.sms.messages.create(
-            from: ENV['TWILIO_FROM'],
-            to: "+233#{courier.phone}",
-           body: "Package with details tracking_code: #{@package.tracking_code},
-           vendor: #{@package.vendor}, destination: #{@package.destination}, 
-           weight: #{@package.weight} is close to you. Log in to accept"
-         )
-         end
-      end
+        @couriers = User.where(role_id:  2)
+        @near_couriers = Profile.near([@package.latitude, @package.longitude], 5)
+        Message.new.courier_notification(@near_couriers, @package)
         redirect_to user_package_path(@user.id, @package)
       else
         render :new
@@ -92,12 +71,7 @@ class PackagesController < ApplicationController
     def checkout
       @package = Package.find(params[:id])
       @package.update(status: true)
-      twilio_client = Twilio::REST::Client.new(ENV['TWILIO_SID'], ENV['TWILIO_TOKEN'])
-           twilio_client.account.sms.messages.create(
-            from: ENV['TWILIO_FROM'],
-            to: "+233#{@package.user.profile.phone}",
-           body: "We have been notified that your package has been delivered succesfully. Do let us know if you have any issues 0546590509."
-         )
+      Message.new.package_delivered(current_user)
       redirect_to user_path(current_user)
     end
 
