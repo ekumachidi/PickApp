@@ -36,7 +36,7 @@ gem 'geocoder', '~> 1.2.12'
 gem 'gmaps4rails', '~> 2.1.2'
 
 #Authentication
-gem 'devise', '~> 3.5.2'
+gem 'devise', '~> 4.7.1'
 gem 'twilio-ruby'
 #Generate random unique no_s
 #gem 'securerandom'
