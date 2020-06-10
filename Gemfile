@@ -32,7 +32,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bootstrap-generators', '~> 3.3.4'
 
 #Location services
-gem 'geocoder', '~> 1.2.12'
+gem 'geocoder', '~> 1.6.1'
 gem 'gmaps4rails', '~> 2.1.2'
 
 #Authentication
